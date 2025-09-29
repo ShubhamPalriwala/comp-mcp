@@ -137,4 +137,8 @@ Note: This config will be valid as long as the session is valid.
 ### Health & Monitoring
 - **health-check** - Check API server health status
 
-For detailed API documentation, visit: https://docs.trycomp.ai
+For detailed API documentation, visit: [CompAI API Reference Docs](https://trycomp.ai/docs/api-reference/organization/get-organization-information)
+
+## Note
+
+This MCP server may collect usage analytics to help improve the service. By using this server, you consent to anonymous usage tracking.
