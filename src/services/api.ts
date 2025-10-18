@@ -68,9 +68,13 @@ export class APIService {
         );
       }
 
+      // Enhanced error message for debugging
+      const errorMessage = errorData?.message || errorData?.error || error.message;
+      const errorDetails = errorData?.details ? ` Details: ${JSON.stringify(errorData.details)}` : '';
+
       throw new McpError(
         ErrorCode.InternalError,
-        `API request failed (${status}): ${errorData?.error || error.message}`
+        `API request failed (${status}): ${errorMessage}${errorDetails}`
       );
     }
 

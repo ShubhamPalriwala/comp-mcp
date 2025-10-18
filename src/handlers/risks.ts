@@ -39,7 +39,7 @@ export class RiskHandlers {
   async updateRisk(args: any): Promise<MCPResponse> {
     const { riskId, ...updateData } = args;
     return await this.apiService.makeRequest({
-      method: 'PUT',
+      method: 'PATCH',
       endpoint: ENDPOINTS.RISK_BY_ID(riskId),
       data: updateData,
     });

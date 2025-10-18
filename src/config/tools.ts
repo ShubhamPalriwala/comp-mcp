@@ -1,5 +1,7 @@
 export const TOOL_DEFINITIONS = [
+  // ============================================
   // Configuration
+  // ============================================
   {
     name: 'configure-trycomp',
     description: 'Configure API key and organization ID for subsequent requests',
@@ -13,7 +15,9 @@ export const TOOL_DEFINITIONS = [
     },
   },
 
-  // Organization
+  // ============================================
+  // Core Read Operations
+  // ============================================
   {
     name: 'get-organization-information',
     description: 'Get organization information',
@@ -25,214 +29,19 @@ export const TOOL_DEFINITIONS = [
     },
   },
   {
-    name: 'update-organization',
-    description: 'Update organization information',
-    inputSchema: {
-      type: 'object',
-      properties: {
-        organizationId: { type: 'string', description: 'Organization ID' },
-        name: { type: 'string', description: 'Organization name' },
-        slug: { type: 'string', description: 'Organization slug' },
-        logo: { type: 'string', description: 'Organization logo URL' },
-        metadata: { type: 'string', description: 'Organization metadata (JSON string)' },
-        website: { type: 'string', description: 'Organization website URL' },
-        onboardingCompleted: { type: 'boolean', description: 'Whether onboarding is completed' },
-        hasAccess: { type: 'boolean', description: 'Whether organization has access' },
-        fleetDmLabelId: { type: 'integer', description: 'Fleet DM label ID' },
-        isFleetSetupCompleted: { type: 'boolean', description: 'Whether fleet setup is completed' },
-      },
-      required: ['organizationId'],
-    },
-  },
-  {
-    name: 'delete-organization',
-    description: 'Delete an organization',
-    inputSchema: {
-      type: 'object',
-      properties: {
-        organizationId: { type: 'string', description: 'Organization ID' },
-      },
-      required: ['organizationId'],
-    },
-  },
-
-  // People
-  {
-    name: 'get-all-people',
-    description: 'Get all people in organization',
-    inputSchema: {
-      type: 'object',
-      properties: {
-        organizationId: { type: 'string', description: 'Organization ID' },
-        limit: { type: 'integer', description: 'Limit results' },
-        offset: { type: 'integer', description: 'Offset results' },
-      },
-      required: ['organizationId'],
-    },
-  },
-  {
-    name: 'create-member',
-    description: 'Create a new member',
-    inputSchema: {
-      type: 'object',
-      properties: {
-        organizationId: { type: 'string', description: 'Organization ID' },
-        userId: { type: 'string', description: 'User ID' },
-        role: { type: 'string', description: 'Member role' },
-        department: { type: 'string', description: 'Member department' },
-        isActive: { type: 'boolean', description: 'Whether member is active' },
-        fleetDmLabelId: { type: 'integer', description: 'Fleet DM label ID' },
-      },
-      required: ['organizationId', 'userId'],
-    },
-  },
-  {
-    name: 'get-person-by-id',
-    description: 'Get person by ID',
-    inputSchema: {
-      type: 'object',
-      properties: {
-        personId: { type: 'string', description: 'Person ID' },
-      },
-      required: ['personId'],
-    },
-  },
-  {
-    name: 'update-member',
-    description: 'Update member information',
-    inputSchema: {
-      type: 'object',
-      properties: {
-        memberId: { type: 'string', description: 'Member ID' },
-        name: { type: 'string', description: 'Member name' },
-        email: { type: 'string', description: 'Member email' },
-        role: { type: 'string', description: 'Member role' },
-      },
-      required: ['memberId'],
-    },
-  },
-  {
-    name: 'delete-member',
-    description: 'Delete a member',
-    inputSchema: {
-      type: 'object',
-      properties: {
-        memberId: { type: 'string', description: 'Member ID' },
-      },
-      required: ['memberId'],
-    },
-  },
-  {
-    name: 'add-multiple-members',
-    description: 'Add multiple members to organization',
-    inputSchema: {
-      type: 'object',
-      properties: {
-        organizationId: { type: 'string', description: 'Organization ID' },
-        members: {
-          type: 'array',
-          description: 'Array of members',
-          items: {
-            type: 'object',
-            properties: {
-              email: { type: 'string' },
-              name: { type: 'string' },
-              role: { type: 'string' },
-            },
-          },
-        },
-      },
-      required: ['organizationId', 'members'],
-    },
-  },
-
-  // Risks
-  {
     name: 'get-all-risks',
-    description: 'Get all risks',
+    description: 'Get all risks with optional filtering by severity',
     inputSchema: {
       type: 'object',
       properties: {
         organizationId: { type: 'string', description: 'Organization ID' },
         limit: { type: 'integer', description: 'Limit results' },
         offset: { type: 'integer', description: 'Offset results' },
-        severity: { type: 'string', description: 'Filter by severity' },
+        severity: { type: 'string', description: 'Filter by severity', enum: ['low', 'medium', 'high', 'critical'] },
       },
       required: ['organizationId'],
     },
   },
-  {
-    name: 'create-risk',
-    description: 'Create a new risk',
-    inputSchema: {
-      type: 'object',
-      properties: {
-        organizationId: { type: 'string', description: 'Organization ID' },
-        title: { type: 'string', description: 'Risk title' },
-        description: { type: 'string', description: 'Risk description' },
-        category: { type: 'string', description: 'Risk category' },
-        department: { type: 'string', description: 'Risk department' },
-        status: { type: 'string', description: 'Risk status' },
-        likelihood: { type: 'string', description: 'Risk likelihood' },
-        impact: { type: 'string', description: 'Risk impact' },
-        residualLikelihood: { type: 'string', description: 'Residual likelihood' },
-        residualImpact: { type: 'string', description: 'Residual impact' },
-        treatmentStrategyDescription: { type: 'string', description: 'Treatment strategy description' },
-        treatmentStrategy: { type: 'string', description: 'Treatment strategy' },
-        assigneeId: { type: 'string', description: 'Assignee member ID' },
-        severity: { type: 'string', description: 'Risk severity', enum: ['low', 'medium', 'high', 'critical'] },
-      },
-      required: ['organizationId', 'title'],
-    },
-  },
-  {
-    name: 'get-risk-by-id',
-    description: 'Get risk by ID',
-    inputSchema: {
-      type: 'object',
-      properties: {
-        riskId: { type: 'string', description: 'Risk ID' },
-      },
-      required: ['riskId'],
-    },
-  },
-  {
-    name: 'update-risk',
-    description: 'Update risk information',
-    inputSchema: {
-      type: 'object',
-      properties: {
-        riskId: { type: 'string', description: 'Risk ID' },
-        title: { type: 'string', description: 'Risk title' },
-        description: { type: 'string', description: 'Risk description' },
-        category: { type: 'string', description: 'Risk category' },
-        department: { type: 'string', description: 'Risk department' },
-        status: { type: 'string', description: 'Risk status' },
-        likelihood: { type: 'string', description: 'Risk likelihood' },
-        impact: { type: 'string', description: 'Risk impact' },
-        residualLikelihood: { type: 'string', description: 'Residual likelihood' },
-        residualImpact: { type: 'string', description: 'Residual impact' },
-        treatmentStrategyDescription: { type: 'string', description: 'Treatment strategy description' },
-        treatmentStrategy: { type: 'string', description: 'Treatment strategy' },
-        assigneeId: { type: 'string', description: 'Assignee member ID' },
-        severity: { type: 'string', description: 'Risk severity', enum: ['low', 'medium', 'high', 'critical'] },
-      },
-      required: ['riskId'],
-    },
-  },
-  {
-    name: 'delete-risk',
-    description: 'Delete a risk',
-    inputSchema: {
-      type: 'object',
-      properties: {
-        riskId: { type: 'string', description: 'Risk ID' },
-      },
-      required: ['riskId'],
-    },
-  },
-
-  // Vendors
   {
     name: 'get-all-vendors',
     description: 'Get all vendors',
@@ -244,6 +53,62 @@ export const TOOL_DEFINITIONS = [
         offset: { type: 'integer', description: 'Offset results' },
       },
       required: ['organizationId'],
+    },
+  },
+  {
+    name: 'get-all-tasks',
+    description: 'Get all tasks with optional filtering',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        organizationId: { type: 'string', description: 'Organization ID' },
+        limit: { type: 'integer', description: 'Limit results' },
+        offset: { type: 'integer', description: 'Offset results' },
+        status: { type: 'string', description: 'Filter by status' },
+        assignedTo: { type: 'string', description: 'Filter by assigned member' },
+      },
+      required: ['organizationId'],
+    },
+  },
+  {
+    name: 'get-all-policies',
+    description: 'Get all organizational policies',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        organizationId: { type: 'string', description: 'Organization ID' },
+        limit: { type: 'integer', description: 'Limit results' },
+        offset: { type: 'integer', description: 'Offset results' },
+      },
+      required: ['organizationId'],
+    },
+  },
+
+  // ============================================
+  // Core Create Operations
+  // ============================================
+  {
+    name: 'create-risk',
+    description: 'Create a new risk',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        organizationId: { type: 'string', description: 'Organization ID' },
+        title: { type: 'string', description: 'Risk title' },
+        description: { type: 'string', description: 'Risk description' },
+        category: { type: 'string', description: 'Risk category', enum: ['customer', 'fraud', 'governance', 'operations', 'other', 'people', 'regulatory', 'reporting', 'resilience', 'technology', 'vendor_management'] },
+        department: { type: 'string', description: 'Risk department', enum: ['none', 'admin', 'gov', 'hr', 'it', 'itsm', 'qms'] },
+        status: { type: 'string', description: 'Risk status', enum: ['open', 'pending', 'closed', 'archived'] },
+        likelihood: { type: 'string', description: 'Risk likelihood', enum: ['very_unlikely', 'unlikely', 'possible', 'likely', 'very_likely'] },
+        impact: { type: 'string', description: 'Risk impact', enum: ['insignificant', 'minor', 'moderate', 'major', 'severe'] },
+        residualLikelihood: { type: 'string', description: 'Residual likelihood', enum: ['very_unlikely', 'unlikely', 'possible', 'likely', 'very_likely'] },
+        residualImpact: { type: 'string', description: 'Residual impact', enum: ['insignificant', 'minor', 'moderate', 'major', 'severe'] },
+        treatmentStrategyDescription: { type: 'string', description: 'Treatment strategy description' },
+        treatmentStrategy: { type: 'string', description: 'Treatment strategy', enum: ['accept', 'avoid', 'mitigate', 'transfer'] },
+        assigneeId: { type: 'string', description: 'Assignee member ID' },
+        severity: { type: 'string', description: 'Risk severity', enum: ['low', 'medium', 'high', 'critical'] },
+      },
+      required: ['organizationId', 'title', 'description', 'category', 'status', 'likelihood', 'impact', 'residualLikelihood', 'residualImpact', 'treatmentStrategy'],
     },
   },
   {
@@ -266,18 +131,109 @@ export const TOOL_DEFINITIONS = [
         residualImpact: { type: 'string', description: 'Residual impact' },
         assigneeId: { type: 'string', description: 'Assignee member ID' },
       },
-      required: ['organizationId', 'name'],
+      required: ['organizationId', 'name', 'description', 'category', 'status', 'inherentProbability', 'inherentImpact', 'residualProbability', 'residualImpact'],
     },
   },
   {
-    name: 'get-vendor-by-id',
-    description: 'Get vendor by ID',
+    name: 'create-policy',
+    description: 'Create a new policy',
     inputSchema: {
       type: 'object',
       properties: {
-        vendorId: { type: 'string', description: 'Vendor ID' },
+        organizationId: { type: 'string', description: 'Organization ID' },
+        name: { type: 'string', description: 'Policy name' },
+        description: { type: 'string', description: 'Policy description' },
+        content: {
+          type: 'array',
+          description: 'Policy content as TipTap JSON array',
+          items: { type: 'object' }
+        },
+        type: { type: 'string', description: 'Policy type' },
       },
-      required: ['vendorId'],
+      required: ['organizationId', 'name', 'content'],
+    },
+  },
+  // TEMPORARILY DISABLED - API has contradictory validation on user identification
+  // API returns "User ID is required" but rejects both userId and authorId fields
+  // Waiting for API team to clarify how to identify comment author
+  // {
+  //   name: 'create-comment',
+  //   description: 'Create a comment on any entity (risk, vendor, task, or policy). Author is automatically derived from API key authentication.',
+  //   inputSchema: {
+  //     type: 'object',
+  //     properties: {
+  //       entityId: { type: 'string', description: 'Entity ID' },
+  //       entityType: { type: 'string', description: 'Entity type', enum: ['task', 'vendor', 'risk', 'policy'] },
+  //       content: { type: 'string', description: 'Comment content' },
+  //       attachments: {
+  //         type: 'array',
+  //         description: 'Optional attachments',
+  //         items: {
+  //           type: 'object',
+  //           properties: {
+  //             fileName: { type: 'string', description: 'File name' },
+  //             fileType: { type: 'string', description: 'MIME type' },
+  //             fileData: { type: 'string', description: 'Base64 encoded file data' },
+  //             description: { type: 'string', description: 'File description' },
+  //           },
+  //           required: ['fileName', 'fileType', 'fileData'],
+  //         },
+  //       },
+  //     },
+  //     required: ['entityId', 'entityType', 'content'],
+  //   },
+  // },
+
+  // ============================================
+  // Task Automation (High Value)
+  // ============================================
+  {
+    name: 'create-evidence-automation',
+    description: 'Create evidence collection automation for a task',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        taskId: { type: 'string', description: 'Task ID' },
+      },
+      required: ['taskId'],
+    },
+  },
+  // TEMPORARILY DISABLED - API returns 404 "Automation not found"
+  // Unclear if this is expected behavior when no runs exist or endpoint path issue
+  // Waiting for API team clarification
+  // {
+  //   name: 'get-all-automation-runs',
+  //   description: 'Get all automation runs for a task to view evidence collection status',
+  //   inputSchema: {
+  //     type: 'object',
+  //     properties: {
+  //       taskId: { type: 'string', description: 'Task ID' },
+  //     },
+  //     required: ['taskId'],
+  //   },
+  // },
+
+  // ============================================
+  // Update Operations (Only Most Common)
+  // ============================================
+  {
+    name: 'update-risk',
+    description: 'Update risk information',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        riskId: { type: 'string', description: 'Risk ID' },
+        title: { type: 'string', description: 'Risk title' },
+        description: { type: 'string', description: 'Risk description' },
+        category: { type: 'string', description: 'Risk category' },
+        status: { type: 'string', description: 'Risk status' },
+        likelihood: { type: 'string', description: 'Risk likelihood' },
+        impact: { type: 'string', description: 'Risk impact' },
+        residualLikelihood: { type: 'string', description: 'Residual likelihood' },
+        residualImpact: { type: 'string', description: 'Residual impact' },
+        severity: { type: 'string', description: 'Risk severity', enum: ['low', 'medium', 'high', 'critical'] },
+      },
+      required: ['riskId'],
     },
   },
   {
@@ -290,374 +246,74 @@ export const TOOL_DEFINITIONS = [
         name: { type: 'string', description: 'Vendor name' },
         description: { type: 'string', description: 'Vendor description' },
         contactEmail: { type: 'string', description: 'Contact email' },
-        contactPhone: { type: 'string', description: 'Contact phone' },
-        website: { type: 'string', description: 'Website URL' },
-        category: { type: 'string', description: 'Vendor category' },
         status: { type: 'string', description: 'Vendor status' },
-        inherentProbability: { type: 'string', description: 'Inherent probability' },
-        inherentImpact: { type: 'string', description: 'Inherent impact' },
         residualProbability: { type: 'string', description: 'Residual probability' },
         residualImpact: { type: 'string', description: 'Residual impact' },
-        assigneeId: { type: 'string', description: 'Assignee member ID' },
-      },
-      required: ['vendorId'],
-    },
-  },
-  {
-    name: 'delete-vendor',
-    description: 'Delete a vendor',
-    inputSchema: {
-      type: 'object',
-      properties: {
-        vendorId: { type: 'string', description: 'Vendor ID' },
       },
       required: ['vendorId'],
     },
   },
 
-  // Context
-  {
-    name: 'get-all-context-entries',
-    description: 'Get all context entries',
-    inputSchema: {
-      type: 'object',
-      properties: {
-        organizationId: { type: 'string', description: 'Organization ID' },
-        limit: { type: 'integer', description: 'Limit results' },
-        offset: { type: 'integer', description: 'Offset results' },
-      },
-      required: ['organizationId'],
-    },
-  },
-  {
-    name: 'create-context-entry',
-    description: 'Create a new context entry',
-    inputSchema: {
-      type: 'object',
-      properties: {
-        organizationId: { type: 'string', description: 'Organization ID' },
-        question: { type: 'string', description: 'Context question' },
-        answer: { type: 'string', description: 'Context answer' },
-        tags: { type: 'array', items: { type: 'string' }, description: 'Context tags' },
-      },
-      required: ['organizationId', 'question', 'answer'],
-    },
-  },
-  {
-    name: 'get-context-entry-by-id',
-    description: 'Get context entry by ID',
-    inputSchema: {
-      type: 'object',
-      properties: {
-        contextId: { type: 'string', description: 'Context ID' },
-      },
-      required: ['contextId'],
-    },
-  },
-  {
-    name: 'update-context-entry',
-    description: 'Update context entry',
-    inputSchema: {
-      type: 'object',
-      properties: {
-        contextId: { type: 'string', description: 'Context ID' },
-        question: { type: 'string', description: 'Context question' },
-        answer: { type: 'string', description: 'Context answer' },
-        tags: { type: 'array', items: { type: 'string' }, description: 'Context tags' },
-      },
-      required: ['contextId'],
-    },
-  },
-  {
-    name: 'delete-context-entry',
-    description: 'Delete context entry',
-    inputSchema: {
-      type: 'object',
-      properties: {
-        contextId: { type: 'string', description: 'Context ID' },
-      },
-      required: ['contextId'],
-    },
-  },
-
-  // Devices
-  {
-    name: 'get-all-devices',
-    description: 'Get all devices',
-    inputSchema: {
-      type: 'object',
-      properties: {
-        organizationId: { type: 'string', description: 'Organization ID' },
-        limit: { type: 'integer', description: 'Limit results' },
-        offset: { type: 'integer', description: 'Offset results' },
-      },
-      required: ['organizationId'],
-    },
-  },
-  {
-    name: 'get-devices-by-member-id',
-    description: 'Get devices by member ID',
-    inputSchema: {
-      type: 'object',
-      properties: {
-        memberId: { type: 'string', description: 'Member ID' },
-      },
-      required: ['memberId'],
-    },
-  },
-
-  // Policies
-  {
-    name: 'get-all-policies',
-    description: 'Get all policies',
-    inputSchema: {
-      type: 'object',
-      properties: {
-        organizationId: { type: 'string', description: 'Organization ID' },
-        limit: { type: 'integer', description: 'Limit results' },
-        offset: { type: 'integer', description: 'Offset results' },
-      },
-      required: ['organizationId'],
-    },
-  },
-  {
-    name: 'create-policy',
-    description: 'Create a new policy',
-    inputSchema: {
-      type: 'object',
-      properties: {
-        organizationId: { type: 'string', description: 'Organization ID' },
-        title: { type: 'string', description: 'Policy title' },
-        description: { type: 'string', description: 'Policy description' },
-        content: { type: 'string', description: 'Policy content' },
-        type: { type: 'string', description: 'Policy type' },
-      },
-      required: ['organizationId', 'title', 'content'],
-    },
-  },
-  {
-    name: 'get-policy-by-id',
-    description: 'Get policy by ID',
-    inputSchema: {
-      type: 'object',
-      properties: {
-        policyId: { type: 'string', description: 'Policy ID' },
-      },
-      required: ['policyId'],
-    },
-  },
-  {
-    name: 'update-policy',
-    description: 'Update policy',
-    inputSchema: {
-      type: 'object',
-      properties: {
-        policyId: { type: 'string', description: 'Policy ID' },
-        title: { type: 'string', description: 'Policy title' },
-        description: { type: 'string', description: 'Policy description' },
-        content: { type: 'string', description: 'Policy content' },
-        type: { type: 'string', description: 'Policy type' },
-      },
-      required: ['policyId'],
-    },
-  },
-  {
-    name: 'delete-policy',
-    description: 'Delete policy',
-    inputSchema: {
-      type: 'object',
-      properties: {
-        policyId: { type: 'string', description: 'Policy ID' },
-      },
-      required: ['policyId'],
-    },
-  },
-
-  // Tasks
-  {
-    name: 'get-all-tasks',
-    description: 'Get all tasks',
-    inputSchema: {
-      type: 'object',
-      properties: {
-        organizationId: { type: 'string', description: 'Organization ID' },
-        limit: { type: 'integer', description: 'Limit results' },
-        offset: { type: 'integer', description: 'Offset results' },
-        status: { type: 'string', description: 'Filter by status' },
-        assignedTo: { type: 'string', description: 'Filter by assigned member' },
-      },
-      required: ['organizationId'],
-    },
-  },
-  {
-    name: 'get-task-by-id',
-    description: 'Get task by ID',
-    inputSchema: {
-      type: 'object',
-      properties: {
-        taskId: { type: 'string', description: 'Task ID' },
-      },
-      required: ['taskId'],
-    },
-  },
-  {
-    name: 'get-task-attachments',
-    description: 'Get task attachments',
-    inputSchema: {
-      type: 'object',
-      properties: {
-        taskId: { type: 'string', description: 'Task ID' },
-      },
-      required: ['taskId'],
-    },
-  },
-  {
-    name: 'upload-attachment-to-task',
-    description: 'Upload attachment to task',
-    inputSchema: {
-      type: 'object',
-      properties: {
-        taskId: { type: 'string', description: 'Task ID' },
-        file: { type: 'string', description: 'File data (base64)' },
-        filename: { type: 'string', description: 'File name' },
-        contentType: { type: 'string', description: 'MIME type' },
-      },
-      required: ['taskId', 'file', 'filename'],
-    },
-  },
-  {
-    name: 'get-task-attachment-download-url',
-    description: 'Get task attachment download URL',
-    inputSchema: {
-      type: 'object',
-      properties: {
-        taskId: { type: 'string', description: 'Task ID' },
-        attachmentId: { type: 'string', description: 'Attachment ID' },
-      },
-      required: ['taskId', 'attachmentId'],
-    },
-  },
-  {
-    name: 'delete-task-attachment',
-    description: 'Delete task attachment',
-    inputSchema: {
-      type: 'object',
-      properties: {
-        taskId: { type: 'string', description: 'Task ID' },
-        attachmentId: { type: 'string', description: 'Attachment ID' },
-      },
-      required: ['taskId', 'attachmentId'],
-    },
-  },
-
-  // Comments
-  {
-    name: 'get-comments-for-entity',
-    description: 'Get comments for entity',
-    inputSchema: {
-      type: 'object',
-      properties: {
-        entityId: { type: 'string', description: 'Entity ID' },
-        limit: { type: 'integer', description: 'Limit results' },
-        offset: { type: 'integer', description: 'Offset results' },
-      },
-      required: ['entityId'],
-    },
-  },
-  {
-    name: 'create-comment',
-    description: 'Create a new comment',
-    inputSchema: {
-      type: 'object',
-      properties: {
-        entityId: { type: 'string', description: 'Entity ID' },
-        entityType: { type: 'string', description: 'Entity type (e.g., "task", "risk", "vendor")' },
-        content: { type: 'string', description: 'Comment content' },
-        authorId: { type: 'string', description: 'Author ID' },
-        attachments: {
-          type: 'array',
-          description: 'Optional attachments',
-          items: {
-            type: 'object',
-            properties: {
-              fileName: { type: 'string', description: 'File name' },
-              fileType: { type: 'string', description: 'MIME type' },
-              fileData: { type: 'string', description: 'Base64 encoded file data' },
-              description: { type: 'string', description: 'File description' },
-            },
-            required: ['fileName', 'fileType', 'fileData'],
-          },
-        },
-      },
-      required: ['entityId', 'entityType', 'content', 'authorId'],
-    },
-  },
-  {
-    name: 'update-comment',
-    description: 'Update comment',
-    inputSchema: {
-      type: 'object',
-      properties: {
-        commentId: { type: 'string', description: 'Comment ID' },
-        content: { type: 'string', description: 'Comment content' },
-      },
-      required: ['commentId', 'content'],
-    },
-  },
-  {
-    name: 'delete-comment',
-    description: 'Delete comment',
-    inputSchema: {
-      type: 'object',
-      properties: {
-        commentId: { type: 'string', description: 'Comment ID' },
-      },
-      required: ['commentId'],
-    },
-  },
-
-  // Attachments
-  {
-    name: 'get-attachment-download-url',
-    description: 'Get attachment download URL',
-    inputSchema: {
-      type: 'object',
-      properties: {
-        attachmentId: { type: 'string', description: 'Attachment ID' },
-      },
-      required: ['attachmentId'],
-    },
-  },
-
-  // Device Agent
-  {
-    name: 'download-macos-device-agent',
-    description: 'Download macOS device agent',
-    inputSchema: {
-      type: 'object',
-      properties: {
-        version: { type: 'string', description: 'Agent version' },
-      },
-    },
-  },
-  {
-    name: 'download-windows-device-agent',
-    description: 'Download Windows device agent',
-    inputSchema: {
-      type: 'object',
-      properties: {
-        version: { type: 'string', description: 'Agent version' },
-      },
-    },
-  },
-
+  // ============================================
   // Health
+  // ============================================
   {
     name: 'health-check',
-    description: 'Perform health check',
+    description: 'Perform health check on the API',
     inputSchema: {
       type: 'object',
       properties: {},
     },
   },
+
+  // ============================================
+  // HIGH-VALUE COMPOSITE WORKFLOWS
+  // TEMPORARILY DISABLED - These workflows use comment creation which has API validation issues
+  // Will re-enable once comment endpoint is fixed by API team
+  // ============================================
+  // {
+  //   name: 'manage-risk-lifecycle',
+  //   description: 'Complete risk lifecycle: create risk + remediation plan + tracking comment. Use this for comprehensive risk management.',
+  //   inputSchema: {
+  //     type: 'object',
+  //     properties: {
+  //       organizationId: { type: 'string', description: 'Organization ID' },
+  //       title: { type: 'string', description: 'Risk title' },
+  //       description: { type: 'string', description: 'Risk description' },
+  //       category: { type: 'string', description: 'Risk category', enum: ['customer', 'fraud', 'governance', 'operations', 'other', 'people', 'regulatory', 'reporting', 'resilience', 'technology', 'vendor_management'] },
+  //       severity: { type: 'string', description: 'Risk severity', enum: ['low', 'medium', 'high', 'critical'] },
+  //       likelihood: { type: 'string', description: 'Risk likelihood', enum: ['very_unlikely', 'unlikely', 'possible', 'likely', 'very_likely'] },
+  //       impact: { type: 'string', description: 'Risk impact', enum: ['insignificant', 'minor', 'moderate', 'major', 'severe'] },
+  //       assigneeId: { type: 'string', description: 'Assignee member ID' },
+  //     },
+  //     required: ['organizationId', 'title', 'description', 'category', 'severity', 'likelihood', 'impact'],
+  //   },
+  // },
+  // {
+  //   name: 'create-vendor-compliance-package',
+  //   description: 'Complete vendor onboarding: vendor + risk assessment + policy + tracking. Use this to onboard new vendors with full compliance setup.',
+  //   inputSchema: {
+  //     type: 'object',
+  //     properties: {
+  //       organizationId: { type: 'string', description: 'Organization ID' },
+  //       vendorName: { type: 'string', description: 'Vendor name' },
+  //       contactEmail: { type: 'string', description: 'Contact email' },
+  //       website: { type: 'string', description: 'Website URL' },
+  //       category: { type: 'string', description: 'Vendor category' },
+  //       assigneeId: { type: 'string', description: 'Assignee member ID' },
+  //     },
+  //     required: ['organizationId', 'vendorName'],
+  //   },
+  // },
+  // {
+  //   name: 'setup-evidence-collection',
+  //   description: 'Setup automated evidence collection: create automation + documentation + status. Use this to automate compliance evidence gathering.',
+  //   inputSchema: {
+  //     type: 'object',
+  //     properties: {
+  //       taskId: { type: 'string', description: 'Task ID' },
+  //     },
+  //     required: ['taskId'],
+  //   },
+  // },
 ] as const;

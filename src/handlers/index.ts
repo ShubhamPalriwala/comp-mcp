@@ -66,7 +66,8 @@ export class PolicyHandlers {
   async getAllPolicies(args: { organizationId: string } & PaginationParams): Promise<MCPResponse> {
     const { organizationId, limit, offset } = args;
     const params: any = {};
-    if (limit) params.limit = limit;
+    // Default to limit 10 to prevent large responses, max 50
+    params.limit = limit ? Math.min(limit, 50) : 10;
     if (offset) params.offset = offset;
     return await this.apiService.makeRequest({ method: 'GET', endpoint: ENDPOINTS.POLICIES, params });
   }
@@ -104,8 +105,9 @@ export class CommentHandlers {
   }
 
   async createComment(args: CreateCommentParams): Promise<MCPResponse> {
-    const { entityId, entityType, content, authorId, attachments } = args;
-    const commentData: any = { entityId, entityType, content, authorId };
+    const { entityId, entityType, content, attachments } = args;
+    // Note: authorId is NOT sent to API - it's derived from authentication
+    const commentData: any = { entityId, entityType, content };
     if (attachments) {
       commentData.attachments = attachments;
     }
@@ -155,3 +157,7 @@ export class HealthHandlers {
     return await this.apiService.makeRequest({ method: 'GET', endpoint: ENDPOINTS.HEALTH });
   }
 }
+
+// Export new handlers
+export { AutomationHandlers } from './automations.js';
+export { TrustPortalHandlers } from './trust-portal.js';

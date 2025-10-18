@@ -1,144 +1,76 @@
-# TryComp.ai MCP Server
+# Comp AI MCP Server
 
-A Model Context Protocol (MCP) server for interacting with TryComp.ai API endpoints.
+MCP server for the Comp AI GRC platform. Manage risks, vendors, policies, tasks, and compliance workflows directly from Claude or any MCP-compatible client.
 
-## Prerequisites
+## Installation
 
-- Node.js 18+
-- npm or yarn
-- TryComp.ai API key
+You'll need Node.js 18 or later and a Comp AI API key from your organization settings.
 
-## Setup
-
-1. Install dependencies:
 ```bash
 npm install
-```
-
-2. Build the project:
-```bash
 npm run build
 ```
 
-## Running with Claude Code
+## Configuration
 
-1. Start the MCP server:
-```bash
-npm start
-```
+Add the server to your MCP client settings. For Claude Code, update your configuration:
 
-2. In Claude Code, add this server to your settings:
 ```json
 {
   "mcpServers": {
     "comp-ai-mcp": {
       "command": "node",
-      "args": ["/path/to/this/repo/dist/index.js"]
+      "args": ["/absolute/path/to/comp-mcp/dist/index.js"]
     }
   }
 }
 ```
 
-3. Configure your TryComp.ai API credentials using Claude Code:
-```sh
-configure my comp ai mcp server with api key your_api_key_here and org id org_abc123def456
+For Cursor, add the same configuration to your MCP settings and restart the editor.
+
+Once connected, configure your credentials in the chat:
+
+```
+configure my comp ai mcp server with api key sk_... and org id org_...
 ```
 
-Note: This config will be valid as long as the session is valid.
+The credentials remain active for your session.
 
-## Running with Cursor
+## What You Can Do
 
-1. Install the MCP extension in Cursor if available, or configure manually
-2. Add the server to your Cursor MCP settings:
-```json
-{
-  "mcpServers": {
-    "comp-ai-mcp": {
-      "command": "node",
-      "args": ["/path/to/this/repo/dist/index.js"]
-    }
-  }
-}
-```
+This server gives you access to the full Comp AI platform through natural language:
 
-3. Restart Cursor and configure API credentials as needed
+**Risks** - Create, update, filter, and track organizational risks. Manage treatment strategies and risk scoring.
 
-## Available Tools
+**Vendors** - Handle third-party vendor assessments, track risk levels, and manage vendor lifecycles.
 
-### Configuration
-- **configure-trycomp** - Configure API key and organization ID for subsequent requests
+**Policies** - Create and maintain organizational policies with structured content and versioning.
 
-### Organization Management
-- **get-organization-information** - Get organization details
-- **update-organization** - Update organization information
-- **delete-organization** - Delete an organization
+**Tasks** - Query compliance tasks, filter by assignee or status, and manage attachments.
 
-### People & Members
-- **get-all-people** - Get all people in organization
-- **create-member** - Create a new team member
-- **get-person-by-id** - Get person details by ID
-- **update-member** - Update member information
-- **delete-member** - Remove a member
-- **add-multiple-members** - Bulk add members to organization
+**Evidence Collection** - Set up automated evidence gathering for compliance tasks.
 
-### Risk Management
-- **get-all-risks** - Get all organizational risks
-- **create-risk** - Create a new risk entry
-- **get-risk-by-id** - Get risk details by ID
-- **update-risk** - Update risk information
-- **delete-risk** - Remove a risk
+**Trust Portal** - Publish or unpublish your security posture to external stakeholders.
 
-### Vendor Management
-- **get-all-vendors** - Get all vendors
-- **create-vendor** - Create a new vendor
-- **get-vendor-by-id** - Get vendor details by ID
-- **update-vendor** - Update vendor information
-- **delete-vendor** - Remove a vendor
+**Team Management** - Add members, track devices, and manage organizational structure.
 
-### Context & Knowledge Base
-- **get-all-context-entries** - Get all context entries
-- **create-context-entry** - Create new context entry
-- **get-context-entry-by-id** - Get context entry by ID
-- **update-context-entry** - Update context entry
-- **delete-context-entry** - Remove context entry
+**Comments** - Add context to any entity with threaded discussions and attachments.
 
-### Policy Management
-- **get-all-policies** - Get all policies (use pagination for large datasets)
-- **create-policy** - Create a new policy
-- **get-policy-by-id** - Get policy details by ID
-- **update-policy** - Update policy information
-- **delete-policy** - Remove a policy
+The server includes built-in prompts for common workflows like risk analysis and evidence collection. Ask Claude to "analyze my critical risks" or "set up evidence automation" to get started.
 
-### Task Management
-- **get-all-tasks** - Get all tasks with optional filtering
-- **get-task-by-id** - Get task details by ID
-- **get-task-attachments** - Get attachments for a task
-- **upload-attachment-to-task** - Upload file to task
-- **get-task-attachment-download-url** - Get download URL for attachment
-- **delete-task-attachment** - Remove task attachment
+## Resources
 
-### Device Management
-- **get-all-devices** - Get all devices in organization
-- **get-devices-by-member-id** - Get devices for specific member
+The server exposes useful resources you can reference:
 
-### Comments & Collaboration
-- **get-comments-for-entity** - Get comments for any entity
-- **create-comment** - Create new comment with optional attachments
-- **update-comment** - Update comment content
-- **delete-comment** - Remove a comment
+- `risk-categories` - Valid risk category types
+- `risk-statuses` - Risk lifecycle states
+- `impact-levels` - Risk impact classifications
+- `likelihood-levels` - Risk probability ratings
 
-### Attachments
-- **get-attachment-download-url** - Get download URL for attachments
+## Documentation
 
-### Device Agents
-- **download-macos-device-agent** - Download macOS monitoring agent
-- **download-windows-device-agent** - Download Windows monitoring agent
+Visit the [Comp AI API docs](https://trycomp.ai/docs/api-reference) for detailed endpoint information.
 
-### Health & Monitoring
-- **health-check** - Check API server health status
+## Privacy
 
-For detailed API documentation, visit: [CompAI API Reference Docs](https://trycomp.ai/docs/api-reference/organization/get-organization-information)
-
-## Note
-
-This MCP server may collect usage analytics to help improve the service. By using this server, you consent to anonymous usage tracking.
+This server collects anonymous usage data to improve functionality with [Agnost AI](https://agnost.ai). Usage is tracked when you interact with Comp AI resources through the MCP server.

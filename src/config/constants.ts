@@ -53,9 +53,20 @@ export const ENDPOINTS = {
   ATTACHMENT_DOWNLOAD: (attachmentId: string) => `/attachments/${attachmentId}/download-url`,
 
   // Device Agent
-  MACOS_AGENT: '/device-agent/macos/download',
-  WINDOWS_AGENT: '/device-agent/windows/download',
+  MACOS_AGENT: '/device-agent/mac',
+  WINDOWS_AGENT: '/device-agent/windows',
 
   // Health
   HEALTH: '/health',
+
+  // Task Automations
+  TASK_AUTOMATIONS: (taskId: string) => `/tasks/${taskId}/automations`,
+  TASK_AUTOMATION_BY_ID: (taskId: string, automationId: string) =>
+    `/tasks/${taskId}/automations/${automationId}`,
+  TASK_AUTOMATION_RUNS: (taskId: string) => `/tasks/${taskId}/automations/runs`,
+  TASK_AUTOMATION_VERSIONS: (taskId: string, automationId: string) =>
+    `/tasks/${taskId}/automations/${automationId}/versions`,
+
+  // Trust Portal
+  TRUST_PORTAL_DOMAIN_STATUS: '/trust-portal/domain/status',
 } as const;
