@@ -1,4 +1,4 @@
-export const API_BASE_URL = 'https://api.staging.trycomp.ai/v1';
+export const API_BASE_URL = 'https://api.trycomp.ai/v1';
 
 export const SERVER_INFO = {
   name: 'trycomp-mcp-server',
